@@ -20,7 +20,7 @@ coord_motor = input.xpoints(33,:);
 % Centro de masas
 [CG, M] = CentroMasas(input.xpoints, input.rho, input.A, input.T, coord_motor, Masa_motor);
 
-I_CM = Inercia_CM (input.xpoints, input.rho, input.A, input.T, coord_motor, Masa_motor);
+I_CM = Inercia_CM (input.xpoints, input.rho, input.A, input.T, coord_motor, Masa_motor, CG);
 
 [Kg, Mg] = assembly_KG_MG(input.xpoints, input.T, input.E, input.A, CN, input.rho);
 

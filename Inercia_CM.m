@@ -1,4 +1,4 @@
-function [I_CM] = Inercia_CM(x, rhos, A, T, coord_motor, masa_motor)
+function [I_CM] = Inercia_CM(x, rhos, A, T, coord_motor, masa_motor, CG)
 
 I_CM = zeros(3);
 
@@ -32,31 +32,40 @@ num_yx = 0; num_yy = 0; num_yz = 0;
 num_zx = 0; num_zy = 0; num_zz = 0;
 
 for e = 1:Nelements
-    num_xx = num_xx + (y_medio(e)^2 + z_medio(e)^2 )* peso(e);
-    num_xy = num_xy - x_medio(e) * y_medio(e) * peso(e);
-    num_xz = num_xz - x_medio(e) * z_medio(e) * peso(e);
     
-    num_yx = num_yx - y_medio(e) * x_medio(e) * peso(e);
-    num_yy = num_yy + (x_medio(e)^2 + z_medio(e)^2) * peso(e);
-    num_yz = num_yz + y_medio(e) * z_medio(e) * peso(e);
+    x_dist_cm(e) = x_medio(e) - CG(1);
+    y_dist_cm(e) = y_medio(e) - CG(2);
+    z_dist_cm(e) = z_medio(e) - CG(3);
     
-    num_zx = num_zx - z_medio(e) * x_medio(e) * peso(e);
-    num_zy = num_zy - z_medio(e) * y_medio(e) * peso(e);
-    num_zz = num_zz + (x_medio(e)^2 + y_medio(e)^2) * peso(e);
+    num_xx = num_xx + (y_dist_cm(e)^2 + z_dist_cm(e)^2 )* peso(e);
+    num_xy = num_xy - x_dist_cm(e) * y_dist_cm(e) * peso(e);
+    num_xz = num_xz - x_dist_cm(e) * z_dist_cm(e) * peso(e);
+    
+    num_yx = num_yx - y_dist_cm(e) * x_dist_cm(e) * peso(e);
+    num_yy = num_yy + (x_dist_cm(e)^2 + z_dist_cm(e)^2) * peso(e);
+    num_yz = num_yz + y_dist_cm(e) * z_dist_cm(e) * peso(e);
+    
+    num_zx = num_zx - z_dist_cm(e) * x_dist_cm(e) * peso(e);
+    num_zy = num_zy - z_dist_cm(e) * y_dist_cm(e) * peso(e);
+    num_zz = num_zz + (x_dist_cm(e)^2 + y_dist_cm(e)^2) * peso(e);
     
 end
 
-num_xx = num_xx + (coord_motor(2)^2 + coord_motor(3)^2) * masa_motor; 
-num_xy = num_xy - (coord_motor(1) * coord_motor(1)) * masa_motor; 
-num_xz = num_xz - (coord_motor(1) * coord_motor(1)) * masa_motor; 
+x_dist_cm_motor = coord_motor(1) - CG(1);
+y_dist_cm_motor = coord_motor(2) - CG(2);
+z_dist_cm_motor = coord_motor(3) - CG(3);
 
-num_yx = num_yx - (coord_motor(1) * coord_motor(1)) * masa_motor; 
-num_yy = num_yy + (coord_motor(1)^2 + coord_motor(3)^2) * masa_motor; 
-num_yz = num_yz - (coord_motor(1) * coord_motor(1)) * masa_motor; 
+num_xx = num_xx + (y_dist_cm_motor^2 + z_dist_cm_motor^2) * masa_motor; 
+num_xy = num_xy - (x_dist_cm_motor * y_dist_cm_motor) * masa_motor; 
+num_xz = num_xz - (x_dist_cm_motor * z_dist_cm_motor) * masa_motor; 
 
-num_zx = num_zx - (coord_motor(1) * coord_motor(1)) * masa_motor; 
-num_zy = num_zy - (coord_motor(1) * coord_motor(1)) * masa_motor; 
-num_zz = num_zz + (coord_motor(1)^2 + coord_motor(2)^2) * masa_motor; 
+num_yx = num_yx - (y_dist_cm_motor * x_dist_cm_motor) * masa_motor; 
+num_yy = num_yy + (x_dist_cm_motor^2 + z_dist_cm_motor^2) * masa_motor; 
+num_yz = num_yz - (y_dist_cm_motor * z_dist_cm_motor) * masa_motor; 
+
+num_zx = num_zx - (z_dist_cm_motor * x_dist_cm_motor) * masa_motor; 
+num_zy = num_zy - (z_dist_cm_motor * y_dist_cm_motor) * masa_motor; 
+num_zz = num_zz + (x_dist_cm_motor^2 + y_dist_cm_motor^2) * masa_motor; 
 
 I_CM = [num_xx, num_xy, num_xz; ...
     num_yx, num_yy, num_yz; ...
