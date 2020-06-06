@@ -56,7 +56,7 @@ num_yz = num_yz - (coord_motor(1) * coord_motor(1)) * masa_motor;
 
 num_zx = num_zx - (coord_motor(1) * coord_motor(1)) * masa_motor; 
 num_zy = num_zy - (coord_motor(1) * coord_motor(1)) * masa_motor; 
-num_zz = num_zz + (coord_motor(1)^2 + coord_motor(3)^2) * masa_motor; 
+num_zz = num_zz + (coord_motor(1)^2 + coord_motor(2)^2) * masa_motor; 
 
 I_CM = [num_xx, num_xy, num_xz; ...
     num_yx, num_yy, num_yz; ...
