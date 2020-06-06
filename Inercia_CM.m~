@@ -1,6 +1,6 @@
-function [CG, M] = CentroMasas(x, rhos, A, T, coord_motor, masa_motor)
+function [CG, M] = Inercia_CM(x, rhos, A, T, coord_motor, masa_motor)
 
-CG = zeros(3,1);
+I_CM = zeros(3);
 
     Ndim = size(x,2); % Number of dimensions (DOFs for each node)
     Nnodes = size(x,1); % Number of nodes
@@ -25,11 +25,25 @@ for e = 1:Nelements
         
 end
 
-num_x = 0; num_y = 0; num_z = 0;
+% Inercias
+
+num_xx = 0; num_xy = 0; num_xz = 0;
+num_yx = 0; num_yy = 0; num_yz = 0;
+num_zx = 0; num_zy = 0; num_zz = 0;
+
 for e = 1:Nelements
-    num_x = num_x + x_medio(e) * peso(e);
-    num_y = num_y + y_medio(e) * peso(e);
-    num_z = num_z + z_medio(e) * peso(e);
+    num_xx = num_xx + (y_medio(e)^2 + z_medio(e)^2 )* peso(e);
+    num_xy = num_xy - x_medio(e) * y_medio(e) * peso(e);
+    num_xz = num_xz - x_medio(e) * z_medio(e) * peso(e);
+    
+    num_yx = num_yx - y_medio(e) * x_medio(e) * peso(e);
+    num_yy = num_yy + (x_medio(e)^2 + z_medio(e)^2) * peso(e);
+    num_yz = num_yz + y_medio(e) * z_medio(e) * peso(e);
+    
+    num_zx = num_zx - z_medio(e) * x_medio(e) * peso(e);
+    num_zy = num_zy - z_medio(e) * y_medio(e) * peso(e);
+    num_zz = num_zz + (x_medio(e)^2 * x_medio(e)) * peso(e);
+    
 end
 
 num_x = num_x + coord_motor(1)*masa_motor;
@@ -41,7 +55,3 @@ M = sum(peso) + masa_motor;
 CG(1) = num_x / M;
 CG(2) = num_y / M;
 CG(3) = num_z / M;
-
-
-
-%CG(1) = 0;

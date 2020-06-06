@@ -15,7 +15,7 @@ function [KG, MG] = assembly_KG_MG(x, T, Es, A, CN, rhos)
         y1=x(T(e,1),2);  y2=x(T(e,2),2);
         z1=x(T(e,1),3);  z2=x(T(e,2),3);
         %le=sqrt((x2-x1)^2+(y2-y1)^2);
-        le=sqrt((x2-x1)^2+(y2-y1)^2 + (z2-z1)^2);
+        le=sqrt((x2-x1)^2+ (y2-y1)^2 + (z2-z1)^2);
         %s=(y2-y1)/le;  %c=(x2-x1)/le;
         %Ke=Area*E/le*[c^2, c*s, -c^2, -c*s; c*s, s^2, -c*s, -s^2; -c^2, -c*s, c^2, c*s; -c*s, -s^2, c*s, s^2];
         Re = 1/le * [ x2-x1, y2-y1, z2-z1, 0, 0, 0 ;...
@@ -46,7 +46,9 @@ function [KG, MG] = assembly_KG_MG(x, T, Es, A, CN, rhos)
             end        
         end
     end
+a=1;    
 end
+
 
     
     
