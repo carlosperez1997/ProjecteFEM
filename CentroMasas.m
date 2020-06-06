@@ -1,4 +1,4 @@
-function [CG, M] = CentroMasas(x, rhos, A, T, coord_motor, masa_motor)
+function [CG, M] = CentroMasas(x, rhos, A, T, punctual_mass)
 
 CG = zeros(3,1);
 
@@ -32,11 +32,13 @@ for e = 1:Nelements
     num_z = num_z + z_medio(e) * peso(e);
 end
 
-num_x = num_x + coord_motor(1)*masa_motor;
-num_y = num_y + coord_motor(2)*masa_motor;
-num_z = num_z + coord_motor(3)*masa_motor;
+for j = 1:size(punctual_mass,1)
+    num_x = num_x + x(punctual_mass(j,1),1)*punctual_mass(j,2);
+    num_y = num_y + x(punctual_mass(j,1),2)*punctual_mass(j,2);
+    num_z = num_z + x(punctual_mass(j,1),3)*punctual_mass(j,2);
+end
 
-M = sum(peso) + masa_motor;
+M = sum(peso) + sum(punctual_mass(:,2));
 
 CG(1) = num_x / M;
 CG(2) = num_y / M;

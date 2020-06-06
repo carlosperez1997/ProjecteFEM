@@ -1,4 +1,4 @@
-function [U, R] = solver (x, T, KG, F, fixnodes);
+function [U, R, vl, vr] = solver (x, T, KG, F, fixnodes);
 
     % Dimensions
     Ndim = size(x,2); % Number of dimensions (DOFs for each node)

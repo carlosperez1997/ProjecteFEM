@@ -11,29 +11,27 @@ clc
 
 run('input_data');
 
-CN = CN_global(input.xpoints, input.T);
+input.CN = CN_global(input.xpoints, input.T);
 
 Plot(input.xpoints, input.T)
 
-coord_motor = input.xpoints(33,:);
+F_gravity = Gravity_force(input.xpoints, input.T, input.A, input.rho, input.g);
 
-% Centro de masas
-[CG, M] = CentroMasas(input.xpoints, input.rho, input.A, input.T, coord_motor, Masa_motor);
+% Centro de masas 
+[CG, M] = CentroMasas(input.xpoints, input.rho, input.A, input.T, input.mass);
 
-I_CM = Inercia_CM (input.xpoints, input.rho, input.A, input.T, coord_motor, Masa_motor, CG);
+I_CM = Inercia_CM (input.xpoints, input.rho, input.A, input.T, input.mass, CG);
 
-[Kg, Mg] = assembly_KG_MG(input.xpoints, input.T, input.E, input.A, CN, input.rho);
+[Kg, Mg] = assembly_KG_MG(input.xpoints, input.T, input.E, input.A, input.CN, input.rho);
 
-F = assembly_F(input.xpoints, input.T, CN, input.Fext);
+F = assembly_F(input.xpoints, input.T, input.CN, input.Fext);
+F_grav = assembly_F(input.xpoints, input.T, input.CN, F_gravity);
+[U, R, vl, vr] = solver (input.xpoints, input.T, Kg, F, input.fixnodes);
 %[U, R, vl, vr] = solveSys(input.xpoints, input.T, Kg, F, input.fixnodes);
 
 %elementcount(input.T, 155)
 
-NdofsxNode = 3;
-Ndofs = 3*size(input.xpoints,1);
-[U, R, vl, vr] = solveSys(NdofsxNode, Ndofs,input.fixnodes,Kg,F);
-%[u ,R, vl, vr] = solveSys(NdofsXnode,Ndofs,fixNod,KG,f)
-output.sx = compute_sigma(input.xpoints, input.T, CN, input.E, U);
+output.sx = compute_sigma(input.xpoints, input.T, input.CN, input.E, U);
 
 
 
