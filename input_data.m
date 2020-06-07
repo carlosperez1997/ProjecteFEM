@@ -527,12 +527,10 @@ end
 clear T
     
 % Element properties
-E = ones(size(input.T,1),1) * 210e3 ;
 
-input.E = E;
-
-input.A = ones(size(input.T,1),1) ;
-input.rho = ones(size(input.T,1),1) * 1;
+input.E = ones(size(input.T,1),1) * 80e9 ; % 210e9
+input.A = ones(size(input.T,1),1) * 3*10^-4 ; % m^2 
+input.rho = ones(size(input.T,1),1) * 7850 ; % kg/m^3
 
 % BC
 input.fixnodes = [29, 1, 0;...
@@ -541,15 +539,9 @@ input.fixnodes = [29, 1, 0;...
             30, 1, 0;...
             30, 2, 0;...
             30, 3, 0;...   %Rueda derecha
-            48, 1, 0;...
-            48, 2, 0;...
-            48, 3, 0;... %Nodo superior cola
-            31, 1, 0;...
-            31, 2, 0;...
-            31, 3, 0;... 
-            32, 1, 0;...
-            32, 2, 0;...
-            32, 3, 0;... 
+            48-3, 1, 0;...
+            48-3, 2, 0;...
+            48-3, 3, 0;... %Nodo superior cola
 ];
    
 %% MASAS ADICIONALES
@@ -570,7 +562,7 @@ clear masa_motor masa_piloto masa_pasajero;
 
 
 %% FORCES
-Lift = 1000;
+Lift = 940*input.g; % L = Weight
 lift_parcial = Lift / 14;
     
 input.Fext = [1, 3, lift_parcial;...
@@ -590,5 +582,9 @@ input.Fext = [1, 3, lift_parcial;...
               53, 3, lift_parcial];
           
           
-          
+%% TERMIC
+input.alpha = 1;
+
+input.Delta_T = ones(size(input.T,1),1) * -40;
+
               

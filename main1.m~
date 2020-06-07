@@ -1,0 +1,33 @@
+%--------------------------------------------------------------------------
+% MAIN CODE
+%--------------------------------------------------------------------------
+% Authors: Paula Sorolla and Carlos Pérez
+% Date: 2/4/2020
+%--------------------------------------------------------------------------
+
+clear all;
+close all;
+clc
+
+%% STATIC
+
+
+
+%% DYNAMIC
+
+    Kll = Kg(vl,vl);
+    Mll = Mg(vl,vl);
+    [phi,lambda] = eigs(Kll,Mll);
+    lambda = sqrt(diag(lambda));
+    freq = sqrt(lambda)/2/pi;
+    
+    % Direct method
+    X_dir = direct(Kg, Mg, F, vl, lambda);
+    % Modal method (2 and 1 eigenvalues)
+    X_mod = modal(Kg, Mg, F, vl, phi, lambda);
+
+
+disp('Finish');
+
+
+
