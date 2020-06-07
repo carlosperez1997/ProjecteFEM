@@ -528,7 +528,7 @@ clear T
     
 % Element properties
 
-input.E = ones(size(input.T,1),1) * 80e9 ; % 210e9
+input.E = ones(size(input.T,1),1) * 210e9 ; % 210e9
 input.A = ones(size(input.T,1),1) * 3*10^-4 ; % m^2 
 input.rho = ones(size(input.T,1),1) * 7850 ; % kg/m^3
 

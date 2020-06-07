@@ -7,7 +7,7 @@ input.CN = CN_global(input.xpoints, input.T);
 
 % FORCES
 F_gravity = Gravity_force(input.xpoints, input.T, input.A, input.rho, input.g);
-F = assembly_F(input.xpoints, input.T, input.CN, input.Fext);
+F_ext = assembly_F(input.xpoints, input.T, input.CN, input.Fext);
 F_grav = assembly_F(input.xpoints, input.T, input.CN, F_gravity);
 
 % Força termica ja expressada en coord. globals
@@ -20,10 +20,10 @@ I_CM = Inercia_CM (input.xpoints, input.rho, input.A, input.T, input.mass, CG);
 % MATRIZ KG y MG
 [Kg, Mg] = assembly_KG_MG(input.xpoints, input.T, input.E, input.A, input.CN, input.rho);
 
-F = F + F_grav; 
+F2 = F_ext + F_grav; 
 
 % Solver
-[U, R, vl, vr] = solver (input.xpoints, input.T, Kg, F, input.fixnodes);
+[U, R, vl, vr] = solver (input.xpoints, input.T, Kg, F2, input.fixnodes);
 
 % Sigma
 output.sx = compute_sigma(input.xpoints, input.T, input.CN, input.E, U);

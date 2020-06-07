@@ -15,6 +15,8 @@ Static_Analysis
 
 %% DYNAMIC
 
+F = F_ext + F_grav;
+
     Kll = Kg(vl,vl);
     Mll = Mg(vl,vl);
     [phi,lambda] = eigs(Kll,Mll);
@@ -26,8 +28,9 @@ Static_Analysis
     % Modal method (2 and 1 eigenvalues)
     X_mod = modal(Kg, Mg, F, vl, phi, lambda);
 
-
+%%DAVID
 % Eigenmodes computation
+
 
 Mnn = Mg(vl, vl);
 Knn = Kg(vl, vl);
@@ -38,9 +41,14 @@ Knn = Kg(vl, vl);
 
 % DIRECT FREQUENCY RESPONSE
 tic
-w_exc = 0:1:1500; % Excitation frequencies range
-f = zeros(168,1);
+w_exc = 0:1:200; % Excitation frequencies range
+%f = zeros(168,1);
+
+f = F;
+
 X_DF = dirfr(Knn, Mnn, vl, w_exc, f);
+
+
 % for i=1:length(X_DF)
 %     
 % vecnorm1_squared = sqrt(X_DF(1,:).^2 + X_DF(2,:).^2);
