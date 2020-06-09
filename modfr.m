@@ -10,7 +10,7 @@ F=f(vl);
 m = phi(:,1:n)'*Mnn*phi(:,1:n);
 k = phi(:,1:n)'*Knn*phi(:,1:n);
 force = phi(:,1:n)'*F;
-fprintf('Iteración modal número %d \n',n);
+fprintf('Iteraciï¿½n modal nï¿½mero %d \n',n);
 for i = 1:length(w_exc)
      
     q = k - w_exc(i)^2*m;
