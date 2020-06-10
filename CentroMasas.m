@@ -1,4 +1,4 @@
-function [CG, M] = CentroMasas(x, rhos, A, T, punctual_mass)
+function [CG, M, le] = CentroMasas(x, rhos, A, T, punctual_mass)
 
 CG = zeros(3,1);
 
@@ -15,9 +15,9 @@ for e = 1:Nelements
         y1=x(T(e,1),2); y2=x(T(e,2),2);
         z1=x(T(e,1),3); z2=x(T(e,2),3);
         %le=sqrt((x2-x1)^2+(y2-y1)^2);
-   le=sqrt((x2-x1)^2+(y2-y1)^2 + (z2-z1)^2);
+   le(e)=sqrt((x2-x1)^2+(y2-y1)^2 + (z2-z1)^2);
         
-   peso(e) = rho*le*Area;
+   peso(e) = rho*le(e)*Area;
         
    x_medio(e) = (x1 + x2 )/ 2;
    y_medio(e) = (y1 + y2 )/ 2;

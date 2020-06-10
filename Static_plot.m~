@@ -1,0 +1,27 @@
+function Static_plot(x, T, U, Fext)
+
+U_vector = Convert2vector(x, T, U);
+
+nodes1 = Fext(1:8,1);
+nodes2 = Fext(9:end,1);
+
+disp_wing1 = U_vector(nodes1,:);
+disp_wing2 = U_vector(nodes2,:);
+
+figure;
+subplot(2,1,1);
+plot(x(nodes2,1),disp_wing2(:,3)*1000); hold on;
+plot(x(LC1.nodes1,1),disp_wing1(:,3)*1000); 
+xlabel('Span [m]','Interpreter','latex','Fontsize',12);
+ylabel('Displacement in z-direction [mm]','Interpreter','latex','Fontsize',12);
+title('LC1 - Vertical displacement along the span','Interpreter','latex','Fontsize',14);
+legend ({'Leading edge','Trailing edge'},'Interpreter','latex','Fontsize',12)
+ylim([-9 1])
+
+subplot(2,1,2);
+plot(input.xpoints(LC1.nodes2,1),LC1.disp_wing2(:,2)*1000); hold on;
+plot(input.xpoints(LC1.nodes1,1),LC1.disp_wing1(:,2)*1000); 
+xlabel('Span [m]','Interpreter','latex','Fontsize',12);
+ylabel('Displacement in y-direction [mm]','Interpreter','latex','Fontsize',12);
+title('LC1 - Horizontal displacement along the span','Interpreter','latex','Fontsize',14);
+legend ({'Leading edge','Trailing edge'},'Interpreter','latex','Fontsize',12,'location','Southeast')

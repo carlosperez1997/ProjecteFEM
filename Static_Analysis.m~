@@ -26,7 +26,7 @@ I_CM = Inercia_CM (input.xpoints, input.rho, input.A, input.T, input.mass, CG);
 LC1.F = F_grav; type = 'LC1';
 [LC1.U, LC1.R, vl, vr] = solver (input.xpoints, input.T, Kg, LC1.F, input.fixnodes);
 
-%LC1.U_vector = Static_plot(input.xpoints, input.T, input.le, LC1.U, input.Fext, type);
+LC1.U_vector = Static_plot(input.xpoints, input.T, input.le, LC1.U, input.Fext, type);
 
 
 %% LC2 
@@ -34,13 +34,14 @@ LC1.F = F_grav; type = 'LC1';
 LC2.F = F_grav + F_termic; type = 'LC2';
 [LC2.U, LC2.R, vl, vr] = solver (input.xpoints, input.T, Kg, LC2.F, input.fixnodes);
 
-%LC2.U_vector = Static_plot(input.xpoints, input.T, input.le, LC2.U, input.Fext, type);
+LC2.U_vector = Static_plot(input.xpoints, input.T, input.le, LC2.U, input.Fext, type);
 
 %% LC3
 
-LC3.F = F_ext * 1.5;
+LC3.F_grav = F_grav;
+F = F_ext2 + F_termic + F_grav2;
 
-acceleration = LC3.F / M;
+acceleration = F / M;
 
 F_inercial = acceleration * M;
 
